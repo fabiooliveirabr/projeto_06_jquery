@@ -54,6 +54,9 @@
 
             var func = $(this).find(".f_resp").text();
             $("#caixa_funcionario").val(func);
+            
+            var data = $(this).find(".data_hora").attr("data_original");
+            $("#caixa_data_hora").val(data);
 
         });
 
@@ -73,7 +76,7 @@
 
     <div class="tela_escura" id="formularioEditar">
         <div class="formulario">
-            <button id="btnFecharEditar"> X </button>
+            <button id="btnFecharEditar" style="background-color: black; color: white;"> X </button>
             <h1>Alterar OS</h1> <br>
             Nº da OS <br>
             <input type="text" id="caixa_id" disabled> <br><br>

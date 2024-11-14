@@ -39,7 +39,7 @@ body{
 }
 .cartoes:hover{
     background-color: rgb(125, 115, 188);
-    transform: scale(1.2);
+    transform: scale(1.1);
     cursor: pointer;
     color: white;
 }

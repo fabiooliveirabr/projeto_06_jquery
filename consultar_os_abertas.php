@@ -23,7 +23,7 @@ try{
             <div class='cartoes'>
                 <b>Nº da OS:</b> <h1 class='id_os'>$id_os</h1> <br>
                 <b>Descrição:</b> <span class='desc_servico'>$descricao_servico</span> <br>
-                <b>Data/Hora abertura:</b> <span class='data_hora'>
+                <b>Data/Hora abertura:</b> <span class='data_hora' data_original='$data_abertura'>
                                         $somente_data às $somente_hora
                                     </span> <br> 
                 <b>Preço:</b> R$ <span class='preco'>$preco</span> <br>
