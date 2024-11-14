@@ -15,12 +15,113 @@
     <div id="conteudo">
         Escolha uma opção acima
     </div>
-
+    
     <script>
+        //Tudo que estiver no document ready, 
+        //será executado assim que a página estiver carregada
+        $(document).ready(function(){
+            $("#formularioEditar").hide();
+
+            //Reconhecer o click do botão para fechar o formulário de editar
+            $("#btnFecharEditar").click(function(){
+                $("#formularioEditar").hide();
+            });
+
+            
+
+        });//Fim do DOCUMENT - READY
+
+        //Reconhecer click nos cartões das Ordens de Serviços
+        $(document).on("click", ".cartoes", function(){
+            $("#formularioEditar").show();
+            var id = $(this).find(".id_os").text();
+            $("#caixa_id").val(id);
+
+            var descricao = $(this).find(".desc_servico").text();
+            $("#caixa_descricao").val(descricao);
+
+            var preco = $(this).find(".preco").text();
+            $("#caixa_preco").val(preco);
+
+            var status = $(this).find(".status").text();
+            $("#caixa_status").val(status);
+
+            var cat = $(this).find(".categoria").text();
+            $("#caixa_categoria").val(cat);
+
+            var pag = $(this).find(".s_paga").text();
+            $("#caixa_pagamento").val(pag);
+
+            var func = $(this).find(".f_resp").text();
+            $("#caixa_funcionario").val(func);
+
+        });
+
+
+
+
+
+
         $("#btnOSAbertas").click(function(){
             $("#conteudo").html("Carregando...");
             $("#conteudo").load("consultar_os_abertas.php");
         });
+
+        
+
     </script>
+
+    <div class="tela_escura" id="formularioEditar">
+        <div class="formulario">
+            <button id="btnFecharEditar"> X </button>
+            <h1>Alterar OS</h1> <br>
+            Nº da OS <br>
+            <input type="text" id="caixa_id" disabled> <br><br>
+
+            Data/Hora de abertura <br>
+            <input type="datetime-local" id="caixa_data_hora" disabled> <br> <br>
+
+            Descrição <br>
+            <textarea id="caixa_descricao" cols="20" rows="3"></textarea> <br><br>
+
+            Preço <br>
+            <input type="number" step="0.01" id="caixa_preco"> <br> <br>
+
+            Funcionário responsável <br>
+            <select id="caixa_funcionario">
+                <option value="">Selecione</option>
+                <option value="Alexandre">Alexandre</option>
+                <option value="Evellen">Evellen</option>
+                <option value="Roberto">Roberto</option>
+            </select> <br> <br>
+
+            Categoria <br>
+            <select id="caixa_categoria">
+                <option value="">Selecione</option>
+                <option value="Suporte Técnico">Suporte Técnico</option>
+                <option value="Instalação">Instalação</option>
+                <option value="Outros">Outros</option>
+            </select> <br> <br>
+
+            Pagamento <br>
+            <select  id="caixa_pagamento">
+                <option value="Pendente">Pendente</option>
+                <option value="Realizado">Realizado</option>
+            </select> <br><br>
+
+            Status da OS <br>
+            <select id="caixa_status">
+                <option value="Aberta">Aberta</option>
+                <option value="Fechada">Fechada</option>
+            </select> <br> <br>
+
+            <button class="botoes" id="btnSalvarAlteracoes">Salvar alterações</button>
+            <button class="botoes" id="btnDeletar">Deletar</button>
+
+
+
+
+        </div>
+    </div>
 </body>
 </html>

@@ -21,16 +21,16 @@ try{
         $somente_hora = date('H:i:s', strtotime($data_abertura));
         echo "
             <div class='cartoes'>
-                Nº da OS: <span class='id_os'>$id_os</span> <br>
-                Descrição: <span class='desc_servico'>$descricao_servico</span> <br>
-                Data/Hora abertura: <span class='data_hora'>
+                <b>Nº da OS:</b> <h1 class='id_os'>$id_os</h1> <br>
+                <b>Descrição:</b> <span class='desc_servico'>$descricao_servico</span> <br>
+                <b>Data/Hora abertura:</b> <span class='data_hora'>
                                         $somente_data às $somente_hora
                                     </span> <br> 
-                Preço: R$ <span class='preco'>$preco</span> <br>
-                Funcionário responsável: <span class='f_resp>$func_responsavel</span> <br>
-                Categoria: <span class='categoria'>$categoria</span> <br>
-                Situação do pagamento: <span class='s_paga'>$pagamento</span> <br>
-                Status: <span class='status'>$status_os</span> <br> <br>
+                <b>Preço:</b> R$ <span class='preco'>$preco</span> <br>
+                <b>Funcionário responsável:</b> <span class='f_resp'>$func_responsavel</span> <br>
+                <b>Categoria:</b> <span class='categoria'>$categoria</span> <br>
+                <b>Situação do pagamento:</b> <span class='s_paga'>$pagamento</span> <br>
+                <b>Status:</b> <span class='status'>$status_os</span> <br> <br>
                 <button id='btnFechar' id_os='$id_os'> Fechar OS</button>
             </div>
         ";
