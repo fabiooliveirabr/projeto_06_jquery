@@ -98,3 +98,16 @@ body{
 input, select, textarea{
     font-size: 20px;
 }
+
+#btnReabrir{
+    background-color: green;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#btnReabrir:hover{
+    background-color: lightgreen;
+    cursor: pointer;
+}

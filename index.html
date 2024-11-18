@@ -11,23 +11,80 @@
     <button id="btnNova" class="botoes">Nova OS</button>
     <button id="btnOSAbertas" class="botoes">OS Abertas</button>
     <button id="btnOSFechadas" class="botoes">OS Fechadas</button>
-
     <div id="conteudo">
         Escolha uma opção acima
     </div>
     
     <script>
+
         //Tudo que estiver no document ready, 
         //será executado assim que a página estiver carregada
         $(document).ready(function(){
             $("#formularioEditar").hide();
 
+            $("#btnSalvarAlteracoes").click(function(){
+                $("#formularioEditar").hide();
+                $("#conteudo").html("<img src='loading.gif' height='100'>");
+                var id_capturado = $("#caixa_id").val();
+                var data_capturada = $("#caixa_data_hora").val();
+                var preco_capturado = $("#caixa_preco").val();
+                var status_capturado = $("#caixa_status").val();
+                var descricao_capturada = $("#caixa_descricao").val();
+                var pagamento_capturado = $("#caixa_pagamento").val();
+                var func_capturado = $("#caixa_funcionario").val();
+                var categoria_capturada = $("#caixa_categoria").val();
+                $.ajax({
+                    url: "atualizar.php",
+                    method: "POST",
+                    data: {id_os: id_capturado,
+                           data_abertura: data_capturada,
+                           descricao_servico: descricao_capturada,
+                           func_responsavel: func_capturado,
+                           categoria: categoria_capturada,
+                           preco: preco_capturado,
+                           pagamento: pagamento_capturado,
+                           status_os: status_capturado
+                    },
+                    success: function(resposta){
+                        alert(resposta);
+                        if(status_capturado == "Aberta"){
+                            $("#conteudo").load("consultar_os_abertas.php");
+                        }else{
+                            $("#conteudo").load("consultar_os_fechadas.php");
+                        }
+
+                    },
+                    error: function() { 
+                        alert("Erro ao atualizar OS" ); 
+                    }
+                });
+            });
+            
             //Reconhecer o click do botão para fechar o formulário de editar
             $("#btnFecharEditar").click(function(){
                 $("#formularioEditar").hide();
+                
             });
 
-            
+            $("#btnDeletar").click(function(){
+            var id_capturado = $("#caixa_id").val();
+            if(confirm("Tem certeza que deseja apagar!")){
+                $("#conteudo").html("<img src='loading.gif' height='100'>");
+                $("#formularioEditar").hide();
+                $.ajax({
+                    url: "deletar.php",
+                    method: "POST",
+                    data: {id_os: id_capturado},
+                    success: function(resposta){
+                        alert(resposta);
+                        $("#conteudo").load("consultar_os_abertas.php");                        
+                    },
+                    error: function(){
+                        alert("Não foi possível deletar!");
+                    },
+                });
+            }
+        });           
 
         });//Fim do DOCUMENT - READY
 
@@ -60,18 +117,16 @@
 
         });
 
-
-
-
-
-
         $("#btnOSAbertas").click(function(){
             $("#conteudo").html("Carregando...");
             $("#conteudo").load("consultar_os_abertas.php");
-        });
+        });//Fim do click do botão ver as ordens de serviço abertas
 
-        
-
+        $("#btnOSFechadas").click(function(){
+            $("#conteudo").html("Carregando...");
+            $("#conteudo").load("consultar_os_fechadas.php");
+        });//Fim do click do botão ver as ordens de serviço fechadas
+  
     </script>
 
     <div class="tela_escura" id="formularioEditar">
