@@ -11,6 +11,9 @@
     <button id="btnNova" class="botoes">Nova OS</button>
     <button id="btnOSAbertas" class="botoes">OS Abertas</button>
     <button id="btnOSFechadas" class="botoes">OS Fechadas</button>
+
+    <h1 id="titulo"></h1>
+
     <div id="conteudo">
         Escolha uma opção acima
     </div>
@@ -18,9 +21,90 @@
     <script>
 
         //Tudo que estiver no document ready, 
-        //será executado assim que a página estiver carregada
+        //será executado assim que a página estiver carregada       
         $(document).ready(function(){
+            $("#btnCadastrar").click(function(){
+                $("#formularioCadastrar").hide();
+                $("#conteudo").html("<img src='loading.gif' height='100'>");
+                var descricao_capturada = $("#caixa_descricao2").val();
+                var preco_capturado = $("#caixa_preco2").val();
+                var categoria_capturada = $("#caixa_categoria2").val();
+                var pagamento_capturado = $("#caixa_pagamento2").val();
+                var status_capturado = $("#caixa_status2").val();
+                var funcionario_capturado = $("#caixa_funcionario2").val();
+                $.ajax({
+                    url: "cadastrar.php",
+                    method: "POST",
+                    data: {descricao: descricao_capturada,
+                           preco: preco_capturado,
+                           func: funcionario_capturado,
+                           categoria: categoria_capturada,
+                           pagamento: pagamento_capturado,
+                           status: status_capturado
+                    },
+                    success: function(resposta){
+                        alert(resposta);
+                        $("#conteudo").html("");                        
+                    },
+                    error: function(){
+                        alert("Erro ao cadastrar");
+                    }
+                });
+
+            });
+
             $("#formularioEditar").hide();
+            $("#formularioCadastrar").hide();
+
+            $("#btnNova").click(function(){
+                $("#formularioCadastrar").show();
+            });
+
+            $("#btnFecharCadastrar").click(function(){
+                $("#formularioCadastrar").hide();
+            });
+
+            $(document).on("click", "#btnReabrir", function(evento){
+                evento.stopPropagation();
+                var id_os = $(this).attr("id_os");
+                $("#conteudo").html("<img src='loading.gif' height='100'>");
+                $.ajax({
+                    url: "reabrir_os.php",
+                    method: "POST",
+                    data: {numero_os: id_os},
+                    success: function(resposta){
+                        alert(resposta);
+                        $("#conteudo").load("consultar_os_fechadas.php");
+                    },
+                    error: function(){
+                        alert("Erro ao reabrir OS");
+                    }
+                });
+            });
+
+
+
+
+            $(document).on("click", "#btnFechar", function(evento){
+                //Reconhecer o click no botão e não no cartão
+                evento.stopPropagation();
+                var id_os = $(this).attr('id_os');
+                $("#conteudo").html("<img src='loading.gif' height='100'>");
+                $.ajax({
+                    url: "fechar_os.php",
+                    method: "POST",
+                    data: {numero_os: id_os},
+                    success:function(resposta){
+                        alert(resposta);
+                        $("#conteudo").load("consultar_os_abertas.php");
+                    },
+                    error:function(){
+                        alert("Erro ao fechar a OS");
+                    }
+                });
+
+                
+            });
 
             $("#btnSalvarAlteracoes").click(function(){
                 $("#formularioEditar").hide();
@@ -88,7 +172,7 @@
 
         });//Fim do DOCUMENT - READY
 
-        //Reconhecer click nos cartões das Ordens de Serviços
+        // Reconhecer click nos cartões das Ordens de Serviços
         $(document).on("click", ".cartoes", function(){
             $("#formularioEditar").show();
             var id = $(this).find(".id_os").text();
@@ -120,11 +204,13 @@
         $("#btnOSAbertas").click(function(){
             $("#conteudo").html("Carregando...");
             $("#conteudo").load("consultar_os_abertas.php");
+            $("#titulo").html("OS Abertas");
         });//Fim do click do botão ver as ordens de serviço abertas
 
         $("#btnOSFechadas").click(function(){
             $("#conteudo").html("Carregando...");
             $("#conteudo").load("consultar_os_fechadas.php");
+            $("#titulo").html("OS Fechadas");
         });//Fim do click do botão ver as ordens de serviço fechadas
   
     </script>
@@ -175,11 +261,55 @@
 
             <button class="botoes" id="btnSalvarAlteracoes">Salvar alterações</button>
             <button class="botoes" id="btnDeletar">Deletar</button>
-
-
-
-
         </div>
+        
     </div>
+
+
+    <div class="tela_escura" id="formularioCadastrar">
+        <div class="formulario">
+            <button id="btnFecharCadastrar" style="background-color: black; color: white;"> X </button>
+            <h1>Cadastrar OS</h1> <br>
+
+            Descrição <br>
+            <textarea id="caixa_descricao2" cols="20" rows="3"></textarea> <br><br>
+
+            Preço <br>
+            <input type="number" step="0.01" id="caixa_preco2"> <br> <br>
+
+            Funcionário responsável <br>
+            <select id="caixa_funcionario2">
+                <option value="">Selecione</option>
+                <option value="Alexandre">Alexandre</option>
+                <option value="Evellen">Evellen</option>
+                <option value="Roberto">Roberto</option>
+            </select> <br> <br>
+
+            Categoria <br>
+            <select id="caixa_categoria2">
+                <option value="">Selecione</option>
+                <option value="Suporte Técnico">Suporte Técnico</option>
+                <option value="Instalação">Instalação</option>
+                <option value="Outros">Outros</option>
+            </select> <br> <br>
+
+            Pagamento <br>
+            <select  id="caixa_pagamento2">
+                <option value="Pendente">Pendente</option>
+                <option value="Realizado">Realizado</option>
+            </select> <br><br>
+
+            Status da OS <br>
+            <select id="caixa_status2">
+                <option value="Aberta">Aberta</option>
+                <option value="Fechada">Fechada</option>
+            </select> <br> <br>
+
+            <button class="botoes" id="btnCadastrar">Cadastrar</button>
+        </div>
+        
+    </div>
+
+
 </body>
 </html>
